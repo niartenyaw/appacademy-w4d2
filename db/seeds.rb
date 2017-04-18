@@ -9,3 +9,6 @@
 cat1 = Cat.create(birth_date: "2015/01/20", color: "black", name: "Midnight", sex: "M", description: "akhefgqkjhfas")
 cat2 = Cat.create(birth_date: "2015/05/26", color: "white", name: "Morning", sex: "F", description: "jahrehenamns")
 cat3 = Cat.create(birth_date: "1991/10/17", color: "orange", name: "October", sex: "M", description: "naefbjkabefa")
+
+rental1 = CatRentalRequest.create(cat_id: 1, start_date: "2017/04/19", end_date: "2017/04/26", status: "APPROVED")
+rental1 = CatRentalRequest.create(cat_id: 2, start_date: "2017/04/19", end_date: "2017/04/20", status: "APPROVED")

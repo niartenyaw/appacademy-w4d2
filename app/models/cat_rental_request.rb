@@ -5,6 +5,26 @@ class CatRentalRequest < ApplicationRecord
 
   belongs_to :cat
 
+  def approve!
+    CatRentalRequest.transaction do
+      self.status = "APPROVED"
+      # debugger
+      overlapping_pending_requests.each do |request|
+        request.deny!
+      end
+      self.save!
+    end
+  end
+
+  def deny!
+    self.status = "DENIED"
+    self.save!
+  end
+
+  def pending?
+    self.status == "PENDING"
+  end
+
   private
 
   def overlapping_requests
@@ -13,12 +33,14 @@ class CatRentalRequest < ApplicationRecord
       OR
       end_date BETWEEN '#{start_date}' AND '#{end_date}'
     SQL
-    # debugger
     overlap.where(cat_id: self.cat_id).where.not(id: self.id)
   end
 
+  def overlapping_pending_requests
+    overlapping_requests.where(status: "PENDING")
+  end
+
   def overlapping_approved_requests
-    # debugger
     overlapping_requests.where(status: 'APPROVED')
   end
 
